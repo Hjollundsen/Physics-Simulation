@@ -7,8 +7,16 @@ import javax.swing.*;
 
 public class Canvas {
     private JFrame frame;
-    public Canvas() {
+    private Timer timer;
+    private ParticleSim particleSim;
+
+    /**
+     * Constructor for the Canvas. Creates a JFrame and sets up the drawing panel.
+     */
+    public Canvas(ParticleSim p) {
+        this.particleSim = p;
         makeFrame();
+        timer.start();
     }
 
     private void makeFrame() {
@@ -24,6 +32,14 @@ public class Canvas {
         frame.pack();
         frame.setLocationRelativeTo(null); //Center window on screen
         frame.setVisible(true);
+
+        timer = new Timer(16, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                particleSim.updateParticles();  // Move particles
+                frame.repaint();    // Redraw the panel with new positions
+            }
+        });
     }
 
     class DrawPanel extends JPanel {
@@ -36,16 +52,18 @@ public class Canvas {
             return new Dimension(800, 600);
         }
 
-        @Override
+        @Override   
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.setColor(Color.RED);
-            g.fillOval(400, 300, 10, 10);
+            for(Particle p : particleSim.getParticles()) {
+                g.fillOval(p.getXCoordinate(), p.getYCoordinate(), p.getSize(), p.getSize());
+            }
         }
     }
 
     public static void main(String args[]) {
-        new Particle(400, 300);
-        new Canvas();
+        ParticleSim pSim = new ParticleSim(6, 20, 400, 25, 2, 3);
+        new Canvas(pSim);
     }
 }
