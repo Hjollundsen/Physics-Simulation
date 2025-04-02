@@ -36,6 +36,7 @@ public class Canvas {
         timer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                particleSim.collisionHandling();
                 particleSim.updateParticles();  // Move particles
                 frame.repaint();    // Redraw the panel with new positions
             }
@@ -63,7 +64,7 @@ public class Canvas {
     }
 
     public static void main(String args[]) {
-        ParticleSim pSim = new ParticleSim(50, 10.0, 10.0, 10, 5, 10);
+        ParticleSim pSim = new ParticleSim(1000, 10.0, 10.0, 10, 10, 100);
         new Canvas(pSim);
     }
 }

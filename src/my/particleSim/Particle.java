@@ -1,5 +1,7 @@
 package my.particleSim;
 
+import java.util.*;
+
 public class Particle {
     //Spacial values
     private double xCoordinate;
@@ -12,9 +14,9 @@ public class Particle {
     //misc
     private int size = 10;
     //Color values:
-    private int colRED = 255;
-    private int colGREEN = 0;
-    private int colBLUE = 0;
+    // private int colRED = 255;
+    // private int colGREEN = 0;
+    // private int colBLUE = 0;
 
     public Particle(double x, double y) {
         //Temporary sets for the Coordinates
