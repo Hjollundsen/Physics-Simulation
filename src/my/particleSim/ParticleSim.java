@@ -15,16 +15,16 @@ public class ParticleSim {
      * @param rows                  Number of rows of particles
      * @param cols                  Number of columns of particles
      */
-    public ParticleSim(int amount, int startingXCoordinate, int startingYCoordinate, int gridSpace, int rows, int cols) {
+    public ParticleSim(int amount, double startingXCoordinate, double startingYCoordinate, int gridSpace, int rows, int cols) {
         if(amount > rows*cols) {
             System.out.println("Too many particles entered for number of rows and columns. Grid has been filled, and extra particles omitted.");
             return;
         }
         int particlesCreated = 0;
         for(int i=0; i < rows; i++) {
-            int yCoordinate = startingYCoordinate + i*gridSpace;
+            double yCoordinate = startingYCoordinate + i*gridSpace;
             for(int j=0; j < cols; j++) {
-                int xCoordinate = startingXCoordinate + j*gridSpace;
+                double xCoordinate = startingXCoordinate + j*gridSpace;
                 if(particlesCreated < amount) {
                     Particle p = new Particle(xCoordinate, yCoordinate);
                     particles.add(p);

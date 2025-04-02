@@ -33,7 +33,7 @@ public class Canvas {
         frame.setLocationRelativeTo(null); //Center window on screen
         frame.setVisible(true);
 
-        timer = new Timer(16, new ActionListener() {
+        timer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 particleSim.updateParticles();  // Move particles
@@ -52,18 +52,18 @@ public class Canvas {
             return new Dimension(800, 600);
         }
 
-        @Override   
+        @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.setColor(Color.RED);
             for(Particle p : particleSim.getParticles()) {
-                g.fillOval(p.getXCoordinate(), p.getYCoordinate(), p.getSize(), p.getSize());
+                g.fillOval((int) p.getXCoordinate(), (int) p.getYCoordinate(), p.getSize(), p.getSize());
             }
         }
     }
 
     public static void main(String args[]) {
-        ParticleSim pSim = new ParticleSim(6, 20, 400, 25, 2, 3);
+        ParticleSim pSim = new ParticleSim(50, 10.0, 10.0, 10, 5, 10);
         new Canvas(pSim);
     }
 }

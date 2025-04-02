@@ -2,12 +2,12 @@ package my.particleSim;
 
 public class Particle {
     //Spacial values
-    private int xCoordinate;
-    private int yCoordinate;
+    private double xCoordinate;
+    private double yCoordinate;
 
     //Movement
-    private int xVelocity = 0;
-    private int yVelocity = 0;
+    private double xVelocity = 0.0;
+    private double yVelocity = 0.0;
 
     //misc
     private int size = 10;
@@ -16,26 +16,37 @@ public class Particle {
     private int colGREEN = 0;
     private int colBLUE = 0;
 
-    public Particle(int x, int y) {
+    public Particle(double x, double y) {
         //Temporary sets for the Coordinates
         xCoordinate = x;
         yCoordinate = y;
     }
 
     public void updateParticle() {
-        int newXCoordinate = getXCoordinate() + getXVelocity();
-        int newYCoordinate = getYCoordinate() + getYVelocity();
+        double newXCoordinate = getXCoordinate() + getXVelocity();
+        double newYCoordinate = getYCoordinate() + getYVelocity();
         setCoordinates(newXCoordinate, newYCoordinate);
-        int newXVelocity = getXVelocity(); //Implement datastructure to keep track of forces
-        int newYVelocity = getYVelocity() + 1; //Gravity
+        double newXVelocity = getXVelocity(); //Implement datastructure to keep track of forces
+        double newYVelocity = getYVelocity() + 0.1; //Gravity
         setXVelocity(newXVelocity);
         setYVelocity(newYVelocity);
         // Bounce off edges
-        if (getXCoordinate() < 0 || getXCoordinate() > 800) { //800 = framewidth
-            setXVelocity(getXVelocity() * -1);
+        if (getXCoordinate() < 10) { //800 = framewidth
+            setCoordinates(10.0, getYCoordinate());
+            setXVelocity((getXVelocity() * 0.25) * -1);
         }
-        if (getYCoordinate() < 0 || getYCoordinate() > 600) {//600 = frameheight 
-            setYVelocity(getYVelocity() * -1);
+        if (getXCoordinate() > 790) {
+            setCoordinates(790.0, getYCoordinate());
+            setXVelocity((getXVelocity() * 0.25 ) * -1);
+        }
+
+        if (getYCoordinate() < 10) {//600 = frameheight 
+            setCoordinates(getXCoordinate(), 10.0);
+            setYVelocity((getYVelocity() / 2) * -1);
+        }
+        if (getYCoordinate() > 590) {
+            setCoordinates(getXCoordinate(), 590.0);
+            setYVelocity((getYVelocity() / 2) * -1);
         }
         
     }
@@ -44,11 +55,11 @@ public class Particle {
      * Getter and setter methods
      */
 
-    public int getXCoordinate() {
+    public double getXCoordinate() {
         return xCoordinate;
     }
 
-    public int getYCoordinate() {
+    public double getYCoordinate() {
         return yCoordinate;
     }
 
@@ -56,23 +67,23 @@ public class Particle {
         return size;
     }
 
-    public void setXVelocity(int x) {
+    public void setXVelocity(double x) {
         xVelocity = x;
     }
 
-    public void setYVelocity(int y) {
+    public void setYVelocity(double y) {
         yVelocity = y;
     }
 
-    public int getXVelocity() {
+    public double getXVelocity() {
         return xVelocity;
     }
 
-    public int getYVelocity() {
+    public double getYVelocity() {
         return yVelocity;
     }
 
-    public void setCoordinates(int x, int y) {
+    public void setCoordinates(double x, double y) {
         xCoordinate = x;
         yCoordinate = y;
     }
