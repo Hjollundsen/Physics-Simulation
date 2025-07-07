@@ -26,42 +26,38 @@ public class ParticleSim {
             for(int j=0; j < cols; j++) {
                 double xCoordinate = startingXCoordinate + j*gridSpace;
                 if(particlesCreated < amount) {
-                    Particle p = new Particle(xCoordinate, yCoordinate);
-                    particles.add(p);
+                    if (i%2 == 0) {
+                        Particle p = new Particle(xCoordinate + 10, yCoordinate, 0); //0 is the z-coordinate not implemented yet
+                        particles.add(p);
+                    }
+                    else {
+                        Particle p = new Particle(xCoordinate, yCoordinate, 0); //0 is the z-coordinate not implemented yet
+                        particles.add(p);
+                    }
                     particlesCreated++;
                 }
             }
         }
     }
 
-    /**
-     * Method for detecting and handling collisions between particles
+    /*
+     * Method for handling collisions
      */
-    public void collisionHandling() {
-        for(int i=0; i < particles.size(); i++) {
-            for(int j=i+1; j < particles.size(); j++) {
-                double distance = Math.sqrt(((particles.get(i).getXCoordinate() - particles.get(j).getXCoordinate()) * (particles.get(i).getXCoordinate() - particles.get(j).getXCoordinate()))
-                                          + ((particles.get(i).getYCoordinate() - particles.get(j).getYCoordinate()) * (particles.get(i).getYCoordinate() - particles.get(j).getYCoordinate())));
-            if(distance < particles.get(i).getSize() + particles.get(j).getSize()) {
-                //Collision detected. Update particles velocities accordingly
-                //First we calculate the relative velocities:
-                double deltaVx = particles.get(i).getXVelocity() - particles.get(j).getXVelocity();
-                double deltaVy = particles.get(i).getYVelocity() - particles.get(j).getYVelocity();
-                //Then we calculate the difference in position:
-                double deltaX = particles.get(i).getXCoordinate() - particles.get(j).getXCoordinate();
-                double deltaY = particles.get(i).getYCoordinate() - particles.get(j).getYCoordinate();
-                //Then we calculate the dot product of the velocity difference and the position difference
-                double vDot = deltaVx * deltaX + deltaVy * deltaY;
-                double distanceSquared = deltaX * deltaX + deltaY * deltaY;
-                //Now using the above calculated values we use the elastic collision formula
-                particles.get(i).setXVelocity(particles.get(i).getXVelocity() - (2 * vDot * deltaX) / distanceSquared);
-                particles.get(i).setYVelocity(particles.get(i).getYVelocity() - (2 * vDot * deltaY) / distanceSquared);
-                particles.get(i).setXVelocity(particles.get(j).getXVelocity() - (2 * vDot * deltaX) / distanceSquared);
-                particles.get(i).setYVelocity(particles.get(j).getYVelocity() - (2 * vDot * deltaY) / distanceSquared);
-            }
+    public void handleCollisions() {
+        for(int i = 0; i < particles.size(); i++) {
+            for(int j = i+1; j < particles.size(); j++) {
+                Particle par1 = particles.get(i);
+                Particle par2 = particles.get(j);
+                int par1X = par1.getXCoordinate();
+                int par1Y = par1.getYCoordinate();
+                int par2X = par2.getXCoordinate();
+                int par2Y = par2.getYCoordinate();
+                if(Math.sqrt(((par1X-par2X)*(par1X-par2X))+((par1Y-par2Y)*(par1Y-par2Y))) < particles.get(j).getSize()) {
+                    particles.get(i).setVelocities(-par1.getXVelocity(), -par1.getYVelocity(), 0); //0 is the z-velocity not implemented yet
+                    particles.get(j).setVelocities(-par2.getXVelocity(), -par2.getYVelocity(), 0); //0 is the z-velocity not implemented yet
+                }
             }
         }
-        
     }
 
     /**
@@ -69,7 +65,7 @@ public class ParticleSim {
      */
     public void updateParticles() {
         for(Particle p : particles) {
-            p.updateParticle();
+            p.updateParticle(0.16);
         }
     }
 

@@ -10,9 +10,6 @@ public class Canvas {
     private Timer timer;
     private ParticleSim particleSim;
 
-    /**
-     * Constructor for the Canvas. Creates a JFrame and sets up the drawing panel.
-     */
     public Canvas(ParticleSim p) {
         this.particleSim = p;
         makeFrame();
@@ -20,51 +17,51 @@ public class Canvas {
     }
 
     private void makeFrame() {
-        //Sets up the frame
-        frame = new JFrame("Particle Simulation");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Sets default close button
-        frame.setResizable(false); //Fixes the frame size
+        //Set up the frame
+        frame = new JFrame("Temporary title");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
 
-        JPanel drawPanel = new DrawPanel();
-        frame.add(drawPanel, BorderLayout.CENTER); //Add the panel
+        DrawPanel panel = new DrawPanel();
+        frame.add(panel, BorderLayout.CENTER); //Add the panel to the frame
 
-        //Finally packing frame and making it visible.
-        frame.pack();
-        frame.setLocationRelativeTo(null); //Center window on screen
-        frame.setVisible(true);
+        frame.pack(); //Packing the frame, just in case
+        frame.setLocationRelativeTo(null); //Centers the frame
+        frame.setVisible(true); //Make the frame visible
 
         timer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                particleSim.collisionHandling();
-                particleSim.updateParticles();  // Move particles
-                frame.repaint();    // Redraw the panel with new positions
+                particleSim.updateParticles();
+                particleSim.handleCollisions();
+                frame.repaint();
             }
         });
+
     }
 
-    class DrawPanel extends JPanel {
-        public DrawPanel() {
-            setBackground(Color.WHITE);
-        }
+        class DrawPanel extends JPanel {
+            public DrawPanel() {
+                setBackground(Color.WHITE);
+            }
 
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(800, 600);
-        }
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(800, 600);
+            }
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.setColor(Color.RED);
-            for(Particle p : particleSim.getParticles()) {
-                g.fillOval((int) p.getXCoordinate(), (int) p.getYCoordinate(), p.getSize(), p.getSize());
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.RED);
+                for(Particle p : particleSim.getParticles()) {
+                    g.fillOval(p.getXCoordinate(), p.getYCoordinate(), p.getSize(), p.getSize());
+                }
             }
         }
-    }
 
     public static void main(String args[]) {
-        ParticleSim pSim = new ParticleSim(1000, 10.0, 10.0, 10, 10, 100);
+        ParticleSim pSim = new ParticleSim(100, 10.0, 10.0, 20, 10, 10);
         new Canvas(pSim);
     }
 }
